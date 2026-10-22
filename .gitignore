@@ -1,0 +1,15 @@
+# Build artifacts
+build/
+bin/
+lib/
+*.o
+*.a
+*.dylib
+*.so
+
+# OS files
+.DS_Store
+*.swp
+*.swo
+.vscode/
+.idea/
