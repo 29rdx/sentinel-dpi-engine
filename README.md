@@ -1,6 +1,7 @@
 # Sentinel-DPI 🛡️
 ### High-Throughput Multi-Threaded Deep Packet Inspection & Threat Detection Firewall
 
+[![Sentinel DPI Core CI](https://github.com/29rdx/sentinel-dpi-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/29rdx/sentinel-dpi-engine/actions/workflows/ci.yml)
 [![C++: 17/20](https://img.shields.io/badge/C%2B%2B-17%2F20-blue.svg?logo=cplusplus&logoColor=white)](https://en.cppreference.com)
 [![CMake: 3.16+](https://img.shields.io/badge/CMake-3.16%2B-brightgreen.svg?logo=cmake&logoColor=white)](https://cmake.org)
 [![Throughput: 250k+ pps](https://img.shields.io/badge/Throughput-250k%2B%20pps%20%7C%20170%20Mbps-brightgreen.svg)](#)
@@ -155,3 +156,4 @@ When tested against the comprehensive cyber threat simulation matrix (`data/cybe
 
 ## 📄 License
 Released under the [MIT License](LICENSE). Engineered by **Rupraj Datta** (`@29rdx`).
+
