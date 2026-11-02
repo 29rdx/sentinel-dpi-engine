@@ -1,4 +1,4 @@
-name: Sentinel DPI Core CI
+name: High-Throughput DPI Engine CI
 
 on:
   push:
@@ -7,21 +7,21 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-test:
+  build_and_test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libpcap-dev cmake g++
-
-      - name: Configure CMake
-        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
-
-      - name: Build Sentinel DPI Engine & Test Suite
-        run: cmake --build build --config Release -j$(nproc)
-
-      - name: Execute Automated Test Suite
-        run: ./build/test_suite
+          sudo apt-get install -y cmake g++ libpcap-dev
+      - name: Build Engine
+        run: |
+          cmake -B build -DCMAKE_BUILD_TYPE=Release
+          cmake --build build -j4
+      - name: Run Core Verification Suite
+        run: |
+          ./build/test_suite
+      - name: Run Advanced Subsystems Test Suite
+        run: |
+          ./build/test_subsystems
