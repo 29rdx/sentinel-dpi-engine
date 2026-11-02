@@ -1,6 +1,6 @@
 #include <iostream>
 #include <chrono>
-#include "fast_path.h"
+#include "fast_path_ring.h"
 
 int main() {
     Sentinel::FastPathRing ring;

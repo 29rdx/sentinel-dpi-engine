@@ -16,12 +16,15 @@ set(SOURCES
     src/rule_manager.cpp
     src/pcap_reader.cpp
     src/pcap_writer.cpp
+    src/fast_path.cpp
+    src/load_balancer.cpp
+    src/dpi_engine.cpp
     src/dns_tunneling_detector.cpp
     src/http2_frame_parser.cpp
     src/tls_fingerprint.cpp
     src/flow_stats_exporter.cpp
-    src/fast_path.cpp
-    src/load_balancer.cpp
+    src/fast_path_ring.cpp
+    src/flow_load_balancer.cpp
     src/heuristic_threats.cpp
 )
 

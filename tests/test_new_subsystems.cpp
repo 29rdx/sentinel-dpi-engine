@@ -4,8 +4,8 @@
 #include "http2_frame_parser.h"
 #include "tls_fingerprint.h"
 #include "flow_stats_exporter.h"
-#include "fast_path.h"
-#include "load_balancer.h"
+#include "fast_path_ring.h"
+#include "flow_load_balancer.h"
 #include "heuristic_threats.h"
 
 void test_dns_tunneling() {

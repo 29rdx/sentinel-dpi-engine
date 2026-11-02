@@ -1,28 +1,49 @@
 #pragma once
-#include <cstdint>
-#include <cstddef>
+
+#include "types.h"
+#include "thread_safe_queue.h"
+#include "connection_tracker.h"
+#include "threat_detector.h"
+#include "rule_manager.h"
+#include <thread>
 #include <atomic>
-#include <vector>
+#include <memory>
 
-namespace Sentinel {
+namespace SentinelDPI {
 
-constexpr size_t FAST_PATH_RING_SIZE = 1024;
-
-struct PacketSlot {
-    uint8_t data[2048];
-    size_t length;
-};
-
-class FastPathRing {
+class FastPath {
 public:
-    FastPathRing();
-    bool enqueue(const uint8_t* packet, size_t len);
-    bool dequeue(uint8_t* out_buffer, size_t& out_len);
+    FastPath(size_t worker_id,
+             ThreadSafeQueue<RawPacket>* input_queue,
+             ThreadSafeQueue<std::pair<RawPacket, PacketAction>>* output_queue,
+             RuleManager* rule_manager,
+             ThreatDetector* threat_detector);
+    ~FastPath();
+
+    void start();
+    void stop();
+    void join();
+
+    size_t getProcessedCount() const { return processed_count_.load(); }
+    size_t getDroppedCount() const { return dropped_count_.load(); }
+    ConnectionTracker& getConnectionTracker() { return conn_tracker_; }
 
 private:
-    PacketSlot slots_[FAST_PATH_RING_SIZE];
-    std::atomic<size_t> head_;
-    std::atomic<size_t> tail_;
+    [[maybe_unused]] size_t worker_id_;
+    ThreadSafeQueue<RawPacket>* input_queue_;
+    ThreadSafeQueue<std::pair<RawPacket, PacketAction>>* output_queue_;
+    RuleManager* rule_manager_;
+    ThreatDetector* threat_detector_;
+
+    ConnectionTracker conn_tracker_;
+    std::atomic<bool> running_{false};
+    std::thread worker_thread_;
+
+    std::atomic<size_t> processed_count_{0};
+    std::atomic<size_t> dropped_count_{0};
+
+    void workerLoop();
+    ApplicationType classifyBySNI(const std::string& sni);
 };
 
-} // namespace Sentinel
+} // namespace SentinelDPI
